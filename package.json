@@ -1,0 +1,14 @@
+{
+  "name": "epitechhub",
+  "version": "1.0.0",
+  "description": "eCommerce innovative website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "PGT3",
+  "license": "ISC",
+  "dependencies": {
+    "create-react-app": "^1.5.2"
+  }
+}
