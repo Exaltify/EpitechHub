@@ -3,11 +3,15 @@ import * as THREE from 'three'
 
 class Scene extends Component {
   constructor(props) {
-    super(props)
-
-    this.start = this.start.bind(this)
-    this.stop = this.stop.bind(this)
-    this.animate = this.animate.bind(this)
+    super(props);
+    this.state = {
+      scene: null,
+      camera: null,
+      renderer: null,
+      material: null,
+      cube: null,
+      frameId: null,
+    }
   }
 
   componentDidMount() {
@@ -20,7 +24,8 @@ class Scene extends Component {
       width / height,
       0.1,
       1000
-    )
+    );
+
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     const geometry = new THREE.BoxGeometry(1, 1, 1)
     const material = new THREE.MeshBasicMaterial({ color: '#433F81' })
@@ -31,14 +36,12 @@ class Scene extends Component {
     renderer.setClearColor('#000000')
     renderer.setSize(width, height)
 
-    this.scene = scene
-    this.camera = camera
-    this.renderer = renderer
-    this.material = material
-    this.cube = cube
+    let newState = {scene, camera, renderer, material, cube};
 
-    this.mount.appendChild(this.renderer.domElement)
-    this.start()
+    this.setState(newState, () => {
+      this.mount.appendChild(this.state.renderer.domElement)
+      this.start()
+    });
   }
 
   componentWillUnmount() {
@@ -46,26 +49,32 @@ class Scene extends Component {
     this.mount.removeChild(this.renderer.domElement)
   }
 
-  start() {
-    if (!this.frameId) {
-      this.frameId = requestAnimationFrame(this.animate)
+  start = () => {
+    if (!this.state.frameId) {
+      let frameId = requestAnimationFrame(this.animate)
+      this.setState({ frameId });
     }
   }
 
-  stop() {
-    cancelAnimationFrame(this.frameId)
+  stop = () => {
+    cancelAnimationFrame(this.state.frameId)
   }
 
-  animate() {
-    this.cube.rotation.x += 0.01
-    this.cube.rotation.y += 0.01
+  animate = () => {
+    let newCube = { ...this.state.cube };
+    newCube.rotation.x += 0.01
+    newCube.rotation.y += 0.01
+
+    this.setState({ cube: newCube }, )
+
 
     this.renderScene()
-    this.frameId = window.requestAnimationFrame(this.animate)
   }
 
-  renderScene() {
-    this.renderer.render(this.scene, this.camera)
+  renderScene = () => {
+    this.state.renderer.render(this.state.scene, this.state.camera);
+    let frameId = window.requestAnimationFrame(this.animate)
+    this.setState({ frameId });
   }
 
   render() {
