@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import logo from './myimage.png';
 import './App.css';
 import Scene from './UI/Scene/Scene';
 
@@ -9,7 +9,6 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
         </header>
         <Scene></Scene>
       </div>
